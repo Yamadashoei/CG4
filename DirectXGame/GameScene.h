@@ -17,6 +17,10 @@ public:
 	// 描画
 	void Draw();
 
+	//エフェクトの発生関数
+	void EffectBorn(KamataEngine::Vector3 position);
+
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

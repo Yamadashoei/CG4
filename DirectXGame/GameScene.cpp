@@ -4,6 +4,14 @@
 using namespace KamataEngine;
 using namespace MathUtility;
 
+// ランダム初期化
+std::random_device seedGen;
+std::mt19937 engine(seedGen());
+std::uniform_real_distribution<float> distrubution(-1.0f, 1.0f);
+std::uniform_real_distribution<float> scaleXDist(0.03f, 0.1f);    // 太さ（横）
+std::uniform_real_distribution<float> scaleYDist(0.5f, 1.0f);     // 長さ（縦）
+std::uniform_real_distribution<float> rotOffsetDist(0.0f, 3.14f); // 少しだけブレさせる
+
 GameScene::~GameScene() {
 	delete modelEffect_;
 	for (Effect* e : effects_)
@@ -23,14 +31,6 @@ void GameScene::Initialize() {
 	camera_.translation_.z = -10.0f;
 	camera_.UpdateMatrix();
 
-	// ランダム初期化
-	std::random_device seedGen;
-	std::mt19937 engine(seedGen());
-	std::uniform_real_distribution<float> scaleXDist(0.03f, 0.1f);     // 太さ（横）
-	std::uniform_real_distribution<float> scaleYDist(0.5f, 1.0f);     // 長さ（縦）
-	std::uniform_real_distribution<float> rotOffsetDist(0.0f, 3.14f); // 少しだけブレさせる
-
-
 	for (int i = 0; i < 12; ++i) {
 
 		Vector3 scale = {
@@ -38,16 +38,32 @@ void GameScene::Initialize() {
 		    scaleYDist(engine), // 長さもランダム
 		    1.0f};
 		Vector3 rotation = {0.0f, 0.0f, rotOffsetDist(engine)};
+		Vector3 position = {0.0f, 0.0f, 0.0f};
 
 		Effect* effect = new Effect();
-		effect->Initialize(modelEffect_, scale, rotation);
+		effect->Initialize(modelEffect_, scale, rotation, position);
 		effects_.push_back(effect);
 	}
 }
 
 void GameScene::Update() {
-	for (Effect* e : effects_)
+	// Effect
+	if (rand() % 10 == 0) {
+		// 位置
+		Vector3 position = {distrubution(engine) * 5.0f, distrubution(engine) * 3.0f, 0.0f};
+
+		EffectBorn(position);
+	}
+	for (Effect* e : effects_) {
 		e->Update();
+	}
+	effects_.remove_if([](Effect* effect) {
+		if (effect->GetDeathFlag()) {
+			delete effect;
+			return true;
+		}
+		return false;
+	});
 }
 
 void GameScene::Draw() {
@@ -75,7 +91,6 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
 
-	
 	for (Effect* e : effects_) {
 		e->Draw(camera_);
 	}
@@ -97,4 +112,19 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::EffectBorn(KamataEngine::Vector3 position) {
+	for (int i = 0; i < 12; i++) {
+		Effect* effect = new Effect();
+		// エフェクトの初期化
+		Vector3 scale;
+		scale = {scaleXDist(engine), scaleYDist(engine), 1.0f};
+
+		Vector3 rotation;
+		rotation = {0.0f, 0.0f, rotOffsetDist(engine)};
+
+		effect->Initialize(modelEffect_, scale, rotation, position);
+		effects_.push_back(effect);
+	}
 }
