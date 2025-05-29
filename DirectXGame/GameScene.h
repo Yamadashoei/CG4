@@ -2,7 +2,6 @@
 #include "Effect.h"
 #include "KamataEngine.h"
 #include <list>
-
 using namespace KamataEngine;
 
 class GameScene {
