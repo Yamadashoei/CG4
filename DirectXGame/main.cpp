@@ -17,7 +17,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	GameScene* gameScene = new GameScene();
 	gameScene->Initialize();
 
-	// メインループ
+	// メインループ 
 	while (true) {
 		// エンジンの更新
 		if (KamataEngine::Update()) {
