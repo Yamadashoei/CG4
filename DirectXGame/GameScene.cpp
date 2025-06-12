@@ -12,9 +12,13 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	// カメラの初期化
 	camera_.Initialize();
+	// WorldTransformの初期化
+	worldTransform_.Initialize();
 
 	// モデルの初期化
 	Model2::StaticInitialize();
+	// Model2(cubeモデル)
+	model2_ = Model2::Create(); 
 }
 
 void GameScene::Update() {}
@@ -36,10 +40,12 @@ void GameScene::Draw() {
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	Model::PreDraw(commandList);
+	Model2::PreDraw(commandList);
+
+	 model2_->Draw(worldTransform_, camera_);
 
 	// 3Dオブジェクト描画後処理
-	Model::PostDraw();
+	Model2::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画

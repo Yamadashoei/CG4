@@ -2,13 +2,12 @@
 #include "KamataEngine.h"
 #include "Model2.h"
 
-#include <3d/WorldTransform.h>
-#include <3d/Model.h>
 #include <3d/Camera.h>
+#include <3d/Model.h>
+#include <3d/WorldTransform.h>
 #include <base\DirectXCommon.h>
 
-
- class GameScene {
+class GameScene {
 
 public:
 	// コンストラクタ
@@ -29,6 +28,9 @@ private:
 	KamataEngine::Audio* audio_ = nullptr;
 	// カメラ
 	KamataEngine::Camera camera_;
+	// ワールド変換
+	KamataEngine::WorldTransform worldTransform_;
 
-
+	// モデル
+	KamataEngine::Model2* model2_ = nullptr;
 };
