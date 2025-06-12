@@ -4,31 +4,20 @@ using namespace KamataEngine;
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
-	delete modelParticle_;
-	delete particle_;
-}
+GameScene::~GameScene() { Model2::StaticFinalize(); }
 
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
-	// モデルの生成
-	modelParticle_ = Model ::CreateSphere(4, 4);
 	// カメラの初期化
 	camera_.Initialize();
 
-	// パーティクルの生成
-	particle_ = new Particle();
-	// パーティクルの初期化
-	particle_->Initialize(modelParticle_);
+	// モデルの初期化
+	Model2::StaticInitialize();
 }
 
-void GameScene::Update() {
-	/// パーティクルの更新
-	particle_->Update();
-}
+void GameScene::Update() {}
 
 void GameScene::Draw() {
 	// DirectXCommon インスタンスの取得
@@ -49,9 +38,6 @@ void GameScene::Draw() {
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
 
-	// パーティクルの描画
-	particle_->Draw(camera_);
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -64,5 +50,4 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
-
 }
