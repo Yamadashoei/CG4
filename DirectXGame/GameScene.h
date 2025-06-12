@@ -30,6 +30,8 @@ private:
 	KamataEngine::Camera camera_;
 	// ワールド変換
 	KamataEngine::WorldTransform worldTransform_;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
 
 	// モデル
 	KamataEngine::Model2* model2_ = nullptr;
