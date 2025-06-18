@@ -192,15 +192,16 @@ Model2* Model2::CreateSquare() {
 	indices.resize(count * 6);
 
 	for (int i = 0; i < count; ++i) {
-		float offsetX = static_cast<float>(i); // 1つずつ右
-
 		int v = i * 4;
 		int iIdx = i * 6;
+
+		// X方向間隔
+		float offsetX = static_cast<float>(i) * 2.0f;
 		// 一枚分の頂点データ
-		vertices[v + 0].pos = {-0.5f + offsetX, -0.5f, 0.0f};
-		vertices[v + 1].pos = {-0.5f + offsetX, +0.5f, 0.0f};
-		vertices[v + 2].pos = {+0.5f + offsetX, -0.5f, 0.0f};
-		vertices[v + 3].pos = {+0.5f + offsetX, +0.5f, 0.0f};
+		vertices[v + 0].pos = {-1.0f + offsetX, -1.0f, 0.0f};
+		vertices[v + 1].pos = {-1.0f + offsetX, +1.0f, 0.0f};
+		vertices[v + 2].pos = {+1.0f + offsetX, -1.0f, 0.0f};
+		vertices[v + 3].pos = {+1.0f + offsetX, +1.0f, 0.0f};
 		// UV座標の設定
 		vertices[v + 0].uv = {0.0f, 1.0f};
 		vertices[v + 1].uv = {0.0f, 0.0f};
