@@ -131,53 +131,95 @@ Model2* Model2::CreateSphere(uint32_t divisionVertial, uint32_t divisionHorizont
 	return instance;
 }
 
-// 四角形のモデルデータを生成
+//// 四角形のモデルデータを生成
+// Model2* Model2::CreateSquare() {
+//	Model2* instance = new Model2();
+//
+//	std::vector<Mesh::VertexPosNormalUv> vertices;
+//	std::vector<uint32_t> indices;
+//
+//	// 頂点数・インデックス数
+//	const uint32_t kNumVertices = 4;
+//	const uint32_t kNumIndices = 6;
+//
+//	vertices.resize(kNumVertices);
+//	indices.resize(kNumIndices);
+//
+//	// 頂点データ設定
+//	// 左下
+//	vertices[0].pos = {-0.5f, -0.5f, 0.0f};
+//	vertices[0].uv = {0.0f, 1.0f};
+//	vertices[0].normal = {0.0f, 0.0f, 1.0f};
+//
+//	// 左上
+//	vertices[1].pos = {-0.5f, +0.5f, 0.0f};
+//	vertices[1].uv = {0.0f, 0.0f};
+//	vertices[1].normal = {0.0f, 0.0f, 1.0f};
+//
+//	// 右下
+//	vertices[2].pos = {+0.5f, -0.5f, 0.0f};
+//	vertices[2].uv = {1.0f, 1.0f};
+//	vertices[2].normal = {0.0f, 0.0f, 1.0f};
+//
+//	// 右上
+//	vertices[3].pos = {+0.5f, +0.5f, 0.0f};
+//	vertices[3].uv = {1.0f, 0.0f};
+//	vertices[3].normal = {0.0f, 0.0f, 1.0f};
+//
+//	// インデックスデータ設定
+//	indices[0] = 0;
+//	indices[1] = 1;
+//	indices[2] = 2;
+//
+//	indices[3] = 2;
+//	indices[4] = 1;
+//	indices[5] = 3;
+//
+//	// モデル初期化
+//	instance->InitializeFromVertices(vertices, indices);
+//
+//	return instance;
+// }
 Model2* Model2::CreateSquare() {
+	int count = 5; // モデル５枚
+
 	Model2* instance = new Model2();
 
 	std::vector<Mesh::VertexPosNormalUv> vertices;
 	std::vector<uint32_t> indices;
 
-	// 頂点数・インデックス数
-	const uint32_t kNumVertices = 4;
-	const uint32_t kNumIndices = 6;
+	vertices.resize(count * 4);
+	indices.resize(count * 6);
 
-	vertices.resize(kNumVertices);
-	indices.resize(kNumIndices);
+	for (int i = 0; i < count; ++i) {
+		float offsetX = static_cast<float>(i); // 1つずつ右
 
-	// 頂点データ設定
-	// 左下
-	vertices[0].pos = {-0.5f, -0.5f, 0.0f};
-	vertices[0].uv = {0.0f, 1.0f};
-	vertices[0].normal = {0.0f, 0.0f, 1.0f};
+		int v = i * 4;
+		int iIdx = i * 6;
+		// 一枚分の頂点データ
+		vertices[v + 0].pos = {-0.5f + offsetX, -0.5f, 0.0f};
+		vertices[v + 1].pos = {-0.5f + offsetX, +0.5f, 0.0f};
+		vertices[v + 2].pos = {+0.5f + offsetX, -0.5f, 0.0f};
+		vertices[v + 3].pos = {+0.5f + offsetX, +0.5f, 0.0f};
+		// UV座標の設定
+		vertices[v + 0].uv = {0.0f, 1.0f};
+		vertices[v + 1].uv = {0.0f, 0.0f};
+		vertices[v + 2].uv = {1.0f, 1.0f};
+		vertices[v + 3].uv = {1.0f, 0.0f};
+		// 法線ベクトル
+		for (int j = 0; j < 4; j++) {
+			vertices[v + j].normal = {0.0f, 0.0f, 1.0f};
+		}
+		// インデックスの設定
+		indices[iIdx + 0] = v + 0;
+		indices[iIdx + 1] = v + 1;
+		indices[iIdx + 2] = v + 2;
+		indices[iIdx + 3] = v + 2;
+		indices[iIdx + 4] = v + 1;
+		indices[iIdx + 5] = v + 3;
+	}
 
-	// 左上
-	vertices[1].pos = {-0.5f, +0.5f, 0.0f};
-	vertices[1].uv = {0.0f, 0.0f};
-	vertices[1].normal = {0.0f, 0.0f, 1.0f};
-
-	// 右下
-	vertices[2].pos = {+0.5f, -0.5f, 0.0f};
-	vertices[2].uv = {1.0f, 1.0f};
-	vertices[2].normal = {0.0f, 0.0f, 1.0f};
-
-	// 右上
-	vertices[3].pos = {+0.5f, +0.5f, 0.0f};
-	vertices[3].uv = {1.0f, 0.0f};
-	vertices[3].normal = {0.0f, 0.0f, 1.0f};
-
-	// インデックスデータ設定
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
-
-	indices[3] = 2;
-	indices[4] = 1;
-	indices[5] = 3;
-
-	// モデル初期化
 	instance->InitializeFromVertices(vertices, indices);
-
 	return instance;
 }
 
