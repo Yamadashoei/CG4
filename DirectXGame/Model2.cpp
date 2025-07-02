@@ -180,44 +180,99 @@ Model2* Model2::CreateSphere(uint32_t divisionVertial, uint32_t divisionHorizont
 //
 //	return instance;
 // }
-Model2* Model2::CreateSquare() {
-	int count = 5; // モデル５枚
+//Model2* Model2::CreateSquare() {
+//	int count = 5; // モデル５枚
+//
+//	Model2* instance = new Model2();
+//
+//	std::vector<Mesh::VertexPosNormalUv> vertices;
+//	std::vector<uint32_t> indices;
+//
+//	vertices.resize(count * 4);
+//	indices.resize(count * 6);
+//
+//	for (int i = 0; i < count; ++i) {
+//		int v = i * 4;
+//		int iIdx = i * 6;
+//
+//		// X方向間隔
+//		float offsetX = static_cast<float>(i) * 2.0f;
+//		// 一枚分の頂点データ
+//		vertices[v + 0].pos = {-1.0f + offsetX, -1.0f, 0.0f};
+//		vertices[v + 1].pos = {-1.0f + offsetX, +1.0f, 0.0f};
+//		vertices[v + 2].pos = {+1.0f + offsetX, -1.0f, 0.0f};
+//		vertices[v + 3].pos = {+1.0f + offsetX, +1.0f, 0.0f};
+//		// UV座標の設定
+//		vertices[v + 0].uv = {0.0f, 1.0f};
+//		vertices[v + 1].uv = {0.0f, 0.0f};
+//		vertices[v + 2].uv = {1.0f, 1.0f};
+//		vertices[v + 3].uv = {1.0f, 0.0f};
+//		// 法線ベクトル
+//		for (int j = 0; j < 4; j++) {
+//			vertices[v + j].normal = {0.0f, 0.0f, 1.0f};
+//		}
+//		// インデックスの設定
+//		indices[iIdx + 0] = v + 0;
+//		indices[iIdx + 1] = v + 1;
+//		indices[iIdx + 2] = v + 2;
+//		indices[iIdx + 3] = v + 2;
+//		indices[iIdx + 4] = v + 1;
+//		indices[iIdx + 5] = v + 3;
+//	}
+//
+//	instance->InitializeFromVertices(vertices, indices);
+//	return instance;
+//}
 
+Model2* Model2::CreateRing(uint32_t divideNum, float outerRadius, float innerRadius) {
 	Model2* instance = new Model2();
 
 	std::vector<Mesh::VertexPosNormalUv> vertices;
 	std::vector<uint32_t> indices;
 
-	vertices.resize(count * 4);
-	indices.resize(count * 6);
+	float radianPerDivide = 2.0f * std::numbers::pi_v<float> / divideNum;
 
-	for (int i = 0; i < count; ++i) {
-		int v = i * 4;
-		int iIdx = i * 6;
+	for (uint32_t i = 0; i < divideNum; ++i) {
+		float theta = i * radianPerDivide;
+		float nextTheta = (i + 1) * radianPerDivide;
 
-		// X方向間隔
-		float offsetX = static_cast<float>(i) * 2.0f;
-		// 一枚分の頂点データ
-		vertices[v + 0].pos = {-1.0f + offsetX, -1.0f, 0.0f};
-		vertices[v + 1].pos = {-1.0f + offsetX, +1.0f, 0.0f};
-		vertices[v + 2].pos = {+1.0f + offsetX, -1.0f, 0.0f};
-		vertices[v + 3].pos = {+1.0f + offsetX, +1.0f, 0.0f};
-		// UV座標の設定
-		vertices[v + 0].uv = {0.0f, 1.0f};
-		vertices[v + 1].uv = {0.0f, 0.0f};
-		vertices[v + 2].uv = {1.0f, 1.0f};
-		vertices[v + 3].uv = {1.0f, 0.0f};
-		// 法線ベクトル
-		for (int j = 0; j < 4; j++) {
-			vertices[v + j].normal = {0.0f, 0.0f, 1.0f};
-		}
-		// インデックスの設定
-		indices[iIdx + 0] = v + 0;
-		indices[iIdx + 1] = v + 1;
-		indices[iIdx + 2] = v + 2;
-		indices[iIdx + 3] = v + 2;
-		indices[iIdx + 4] = v + 1;
-		indices[iIdx + 5] = v + 3;
+		// 外側と内側の頂点位置
+		Vector3 outerCurr = {std::cos(theta) * outerRadius, std::sin(theta) * outerRadius, 0.0f};
+		Vector3 innerCurr = {std::cos(theta) * innerRadius, std::sin(theta) * innerRadius, 0.0f};
+		Vector3 outerNext = {std::cos(nextTheta) * outerRadius, std::sin(nextTheta) * outerRadius, 0.0f};
+		Vector3 innerNext = {std::cos(nextTheta) * innerRadius, std::sin(nextTheta) * innerRadius, 0.0f};
+
+		float u = static_cast<float>(i) / divideNum;
+		float uNext = static_cast<float>(i + 1) / divideNum;
+
+		// 頂点追加（外→内→内→外 の順）
+		uint32_t baseIndex = static_cast<uint32_t>(vertices.size());
+
+		vertices.push_back({
+		    outerCurr, {0, 0, 1},
+             {u, 0.0f}
+        });
+		vertices.push_back({
+		    innerCurr, {0, 0, 1},
+             {u, 1.0f}
+        });
+		vertices.push_back({
+		    innerNext, {0, 0, 1},
+             {uNext, 1.0f}
+        });
+		vertices.push_back({
+		    outerNext, {0, 0, 1},
+             {uNext, 0.0f}
+        });
+
+		// 三角形2枚
+		indices.push_back(baseIndex + 0);
+		indices.push_back(baseIndex + 1);
+		indices.push_back(baseIndex + 2);
+
+		indices.push_back(baseIndex + 0);
+		indices.push_back(baseIndex + 2);
+		indices.push_back(baseIndex + 3);
 	}
 
 	instance->InitializeFromVertices(vertices, indices);

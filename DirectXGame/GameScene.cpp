@@ -28,7 +28,10 @@ void GameScene::Initialize() {
 	// Model2(cubeモデル)
 	model2_ = Model2::Create();
 	// Model2の四角形モデルを生成
-	model2_ = Model2::CreateSquare();
+	//model2_ = Model2::CreateSquare();
+	model2_ = Model2::CreateRing(8, 1.0f, 0.5f); // リング生成（分割数32）
+
+
 }
 
 void GameScene::Update() {}

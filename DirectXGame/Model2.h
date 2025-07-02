@@ -142,6 +142,8 @@ public: // 静的メンバ関数
 	/// /// </summary>
 	static Model2* CreateSquare();
 
+	static Model2* CreateRing(uint32_t divideNum = 32, float outerRadius = 1.0f, float innerRadius = 0.5f);
+
 	/// <summary>
 	/// 描画前処理
 	/// </summary>
