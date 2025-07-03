@@ -209,7 +209,7 @@ Model2* Model2::CreateSquare() {
 		vertices[v + 3].uv = {1.0f, 0.0f};
 		// 法線ベクトル
 		for (int j = 0; j < 4; j++) {
-			vertices[v + j].normal = {0.0f, 0.0f, 1.0f};
+			vertices[v + j].normal = {0.0f, 0.0f, -1.0f};
 		}
 		// インデックスの設定
 		indices[iIdx + 0] = v + 0;
