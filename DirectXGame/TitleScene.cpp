@@ -20,7 +20,7 @@ void TitleScene::Initialize() {
 
 	// タイトル文字
 	uint32_t titleTex = TextureManager::Load("./Resources/titleTex.png");
-	titleSprite_ = Sprite::Create(titleTex, {390.0f, titleY_});
+	titleSprite_ = Sprite::Create(titleTex, {400.0f, titleY_});
 
 	// Hit Enter Key の文字
 	uint32_t enterTex = TextureManager::Load("./Resources/enter.png");
@@ -32,8 +32,8 @@ void TitleScene::Update() {
 
 	// タイトルのY軸移動（上から落下）
 	if (titleY_ < 150.0f) {
-		titleY_ += 4.0f; // 落下速度
-		titleSprite_->SetPosition({390.0f, titleY_});
+		titleY_ += 2.0f; // 落下速度
+		titleSprite_->SetPosition({400.0f, titleY_});
 	}
 
 	// Enterキー押下でシーン遷移
