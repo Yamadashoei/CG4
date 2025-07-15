@@ -1,9 +1,12 @@
 #include "KamataEngine.h"
 #include <Windows.h>
 
+#include "TitleScene.h"
 #include "GameScene.h"
 
 using namespace KamataEngine;
+
+enum class SceneType { Title, Game };
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -13,9 +16,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// ゲームシーンの初期化
-	GameScene* gameScene = new GameScene();
-	gameScene->Initialize();
+	SceneType currentScene = SceneType::Title;
+	TitleScene* titleScene = new TitleScene();
+	GameScene* gameScene = nullptr;
+
+	titleScene->Initialize();
+
 
 	// メインループ
 	while (true) {
@@ -24,23 +30,39 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			break;
 		}
 
-		// ゲームシーンのアップデート
-		gameScene->Update();
+		// シーンごとの更新
+		switch (currentScene) {
+		case SceneType::Title:
+			titleScene->Update();
+			if (titleScene->IsSceneEnd()) {
+				delete titleScene;
+				gameScene = new GameScene();
+				gameScene->Initialize();
+				currentScene = SceneType::Game;
+			}
+			break;
+		case SceneType::Game:
+			gameScene->Update();
+			break;
+		}
 
-		// 描画開始 ↓ここから
 		dxCommon->PreDraw();
 
-		// ゲームシーンの描画
-		gameScene->Draw();
+		switch (currentScene) {
+		case SceneType::Title:
+			titleScene->Draw();
+			break;
+		case SceneType::Game:
+			gameScene->Draw();
+			break;
+		}
 
-		// 描画終了
 		dxCommon->PostDraw();
 	}
 
-	// ゲームシーンの解放
+// 解放処理
+	delete titleScene;
 	delete gameScene;
-	// nullptrの代入
-	gameScene = nullptr;
 
 
 	// 解放処理
