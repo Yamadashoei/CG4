@@ -14,14 +14,20 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	modelParticle_ = Model::CreateSphere(4, 4);
+	// モデルの生成
+	modelParticle_ = Model ::CreateSphere(4, 4);
+	// カメラの初期化
 	camera_.Initialize();
 
+	// パーティクルの生成
 	particle_ = new Particle();
+	// パーティクルの初期化
 	particle_->Initialize(modelParticle_);
 }
 
-void GameScene::Update() { particle_->Update(); }
+void GameScene::Update() { 
+	// パーティクルの更新
+	particle_->Update(); }
 
 void GameScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
