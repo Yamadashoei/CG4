@@ -16,6 +16,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+
 	SceneType currentScene = SceneType::Title;
 	TitleScene* titleScene = new TitleScene();
 	GameScene* gameScene = nullptr;
@@ -30,22 +31,25 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			break;
 		}
 
-		// シーンごとの更新
+
+		// 更新処理
 		switch (currentScene) {
 		case SceneType::Title:
 			titleScene->Update();
 			if (titleScene->IsSceneEnd()) {
-				delete titleScene;
 				gameScene = new GameScene();
 				gameScene->Initialize();
 				currentScene = SceneType::Game;
 			}
 			break;
+
 		case SceneType::Game:
 			gameScene->Update();
 			break;
 		}
 
+
+		// 描画処理
 		dxCommon->PreDraw();
 
 		switch (currentScene) {
@@ -56,8 +60,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			gameScene->Draw();
 			break;
 		}
-
 		dxCommon->PostDraw();
+
+
+
 	}
 
 // 解放処理
