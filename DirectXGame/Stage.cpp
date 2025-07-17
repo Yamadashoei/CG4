@@ -15,14 +15,14 @@ void Stage::Initialize() {
 
 	uint32_t tex = TextureManager::Load("./Resources/bg.png");
 
-	// 左側背景（通常）
+	// 左側背景
 	bgLeft_ = Sprite::Create(tex, {0.0f, 0.0f});
 	bgLeft_->SetSize({1280.0f, 720.0f});
 
-	// 右側背景（反転 + アンカーポイント調整）
+	// 右側背景(反転)
 	bgRight_ = Sprite::Create(tex, {1280.0f, 0.0f});
 	bgRight_->SetSize({1280.0f, 720.0f});
-	bgRight_->SetAnchorPoint({1.0f, 0.0f}); // 右上を基準に
+	bgRight_->SetAnchorPoint({1.0f, 0.0f}); 
 	bgRight_->SetIsFlipX(true);
 }
 
