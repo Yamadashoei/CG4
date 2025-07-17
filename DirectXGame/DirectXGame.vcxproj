@@ -107,10 +107,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="kMath.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="WorldTransfromEx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
@@ -189,7 +192,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="kMath.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>

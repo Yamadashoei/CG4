@@ -15,15 +15,15 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 
 	// 背景画像
-	uint32_t bgTex = TextureManager::Load("./Resources/title.png");
+	uint32_t bgTex = TextureManager::Load("./Resources/scene/title.png");
 	background_ = Sprite::Create(bgTex, {0.0f, 0.0f});
 
 	// タイトル文字
-	uint32_t titleTex = TextureManager::Load("./Resources/titleTex.png");
+	uint32_t titleTex = TextureManager::Load("./Resources/scene/titleTex.png");
 	titleSprite_ = Sprite::Create(titleTex, {400.0f, titleY_});
 
 	// Hit Enter Key の文字
-	uint32_t enterTex = TextureManager::Load("./Resources/enter.png");
+	uint32_t enterTex = TextureManager::Load("./Resources/scene/enter.png");
 	enterKeySprite_ = Sprite::Create(enterTex, {490.0f, 500.0f});
 }
 

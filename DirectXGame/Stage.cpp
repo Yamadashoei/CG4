@@ -13,7 +13,7 @@ void Stage::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 
-	uint32_t tex = TextureManager::Load("./Resources/bg.png");
+	uint32_t tex = TextureManager::Load("./Resources/scene/bg.png");
 
 	// 左側背景
 	bgLeft_ = Sprite::Create(tex, {0.0f, 0.0f});

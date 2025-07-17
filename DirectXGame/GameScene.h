@@ -1,7 +1,9 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Particle.h"
+#include "Player.h"
 #include "Stage.h"
+#include"kMath.h"
 
 #include <3d/Camera.h>
 #include <3d/Model.h>
@@ -27,12 +29,16 @@ private:
 
 	// パーティクルモデル
 	KamataEngine::Model* modelParticle_ = nullptr;
+	KamataEngine::Model* modelPlayer_ = nullptr;
+
 	// カメラ
 	KamataEngine::Camera camera_;
-	//パーティクル
-	Particle* particle_ = nullptr;
 
+	// パーティクル
+	Particle* particle_ = nullptr;
 	// ステージ(背景スクロール)
 	Stage* stage_ = nullptr;
-
+	// プレイヤー
+	Player* player_ = nullptr;
+	
 };
