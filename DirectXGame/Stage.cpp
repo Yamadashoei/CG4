@@ -5,38 +5,46 @@ using namespace KamataEngine;
 Stage::Stage() {}
 
 Stage::~Stage() {
-	delete bg1_;
-	delete bg2_;
+	delete bgLeft_;
+	delete bgRight_;
 }
 
 void Stage::Initialize() {
-	// 背景画像読み込み
+	dxCommon_ = DirectXCommon::GetInstance();
+	input_ = Input::GetInstance();
+
 	uint32_t tex = TextureManager::Load("./Resources/bg.png");
 
-	// 2枚用意して横に並べる
-	bg1_ = Sprite::Create(tex, {0.0f, 0.0f});
-	bg2_ = Sprite::Create(tex, {1280.0f, 0.0f}); 
+	// 左側背景（通常）
+	bgLeft_ = Sprite::Create(tex, {0.0f, 0.0f});
+	bgLeft_->SetSize({1280.0f, 720.0f});
+
+	// 右側背景（反転 + アンカーポイント調整）
+	bgRight_ = Sprite::Create(tex, {1280.0f, 0.0f});
+	bgRight_->SetSize({1280.0f, 720.0f});
+	bgRight_->SetAnchorPoint({1.0f, 0.0f}); // 右上を基準に
+	bgRight_->SetIsFlipX(true);
 }
 
 void Stage::Update() {
-	// 左方向にスクロール
-	scrollX_ -= 2.0f;
+	// 左へスクロール
+	scrollX_ -= scrollSpeed_;
 
-	// ループ処理
 	if (scrollX_ <= -1280.0f) {
 		scrollX_ += 1280.0f;
 	}
 
-	// 背景2枚の位置を更新
-	bg1_->SetPosition({scrollX_, 0.0f});
-	bg2_->SetPosition({scrollX_ + 1280.0f, 0.0f});
+	// 位置更新
+	bgLeft_->SetPosition({scrollX_, 0.0f});
+	bgRight_->SetPosition({scrollX_ + 1280.0f, 0.0f});
 }
 
 void Stage::Draw() {
-	ID3D12GraphicsCommandList* commandList = DirectXCommon::GetInstance()->GetCommandList();
-
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 	Sprite::PreDraw(commandList);
-	bg1_->Draw();
-	bg2_->Draw();
+
+	bgLeft_->Draw();
+	bgRight_->Draw();
+
 	Sprite::PostDraw();
 }

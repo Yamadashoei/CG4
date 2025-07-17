@@ -7,6 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete modelParticle_;
 	delete particle_;
+	delete stage_;
 }
 
 void GameScene::Initialize() {
@@ -19,15 +20,24 @@ void GameScene::Initialize() {
 
 	particle_ = new Particle();
 	particle_->Initialize(modelParticle_);
+
+	stage_ = new Stage();
+	stage_->Initialize();
 }
 
-void GameScene::Update() { particle_->Update(); }
+void GameScene::Update() {
+	particle_->Update();
+	stage_->Update();
+}
 
 void GameScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	// 背景スプライト
 	Sprite::PreDraw(commandList);
+
+	stage_->Draw();
+
 	Sprite::PostDraw();
 	dxCommon_->ClearDepthBuffer();
 

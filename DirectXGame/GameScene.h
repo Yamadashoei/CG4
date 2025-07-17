@@ -1,6 +1,7 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Particle.h"
+#include "Stage.h"
 
 #include <3d/Camera.h>
 #include <3d/Model.h>
@@ -22,4 +23,7 @@ private:
 	KamataEngine::Model* modelParticle_ = nullptr;
 	KamataEngine::Camera camera_;
 	Particle* particle_ = nullptr;
+
+	Stage* stage_ = nullptr;
+
 };

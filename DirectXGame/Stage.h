@@ -1,4 +1,5 @@
 #pragma once
+
 #include "KamataEngine.h"
 
 class Stage {
@@ -11,8 +12,12 @@ public:
 	void Draw();
 
 private:
-	KamataEngine::Sprite* bg1_ = nullptr;
-	KamataEngine::Sprite* bg2_ = nullptr;
+	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
+	KamataEngine::Input* input_ = nullptr;
+
+	KamataEngine::Sprite* bgLeft_ = nullptr;
+	KamataEngine::Sprite* bgRight_ = nullptr;
 
 	float scrollX_ = 0.0f;
+	float scrollSpeed_ = 2.0f;
 };
