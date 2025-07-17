@@ -47,4 +47,6 @@ void Stage::Draw() {
 	bgRight_->Draw();
 
 	Sprite::PostDraw();
+	dxCommon_->ClearDepthBuffer();
+
 }

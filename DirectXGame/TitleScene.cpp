@@ -56,6 +56,8 @@ void TitleScene::Draw() {
 	}
 
 	Sprite::PostDraw();
+	dxCommon_->ClearDepthBuffer();
+
 }
 
 bool TitleScene::IsSceneEnd() const { return isSceneEnd_; }
