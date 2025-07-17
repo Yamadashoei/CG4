@@ -19,7 +19,7 @@ void Player::Initialize(Model* model, Vector3 position, Vector3 velocity) {
 }
 
 void Player::Update() {
-	// 例：移動処理（必要に応じて削除/変更可）
+	//移動処理（必要に応じて削除/変更可）
 	worldTransform_.translation_ += velocity_;
 
 	worldTransform_.UpdateMatrix();
