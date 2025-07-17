@@ -35,7 +35,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		case SceneType::Title:
 			titleScene->Update();
 			if (titleScene->IsSceneEnd()) {
-				delete titleScene;
 				gameScene = new GameScene();
 				gameScene->Initialize();
 				currentScene = SceneType::Game;
