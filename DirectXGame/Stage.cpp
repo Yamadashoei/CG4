@@ -2,49 +2,43 @@
 
 using namespace KamataEngine;
 
-//あと反転のみ
-
 Stage::Stage() {}
 
 Stage::~Stage() {
-	delete bgSprite1_;
-	delete bgSprite2_;
+	delete bgLeft_;
+	delete bgRight_;
 }
 
 void Stage::Initialize() {
 	uint32_t tex1 = TextureManager::Load("./Resources/bg1.png");
 	uint32_t tex2 = TextureManager::Load("./Resources/bg2.png");
 
-	bgSprite1_ = Sprite::Create(tex1, {0, 0});
-	bgSprite1_->SetSize({bgWidth_, 720.0f});
+	bgLeft_ = Sprite::Create(tex1, {0, 0});
+	bgLeft_->SetSize({bgWidth_, 720.0f});
 
-	bgSprite2_ = Sprite::Create(tex2, {bgWidth_, 0});
-	bgSprite2_->SetSize({bgWidth_, 720.0f});
+	bgRight_ = Sprite::Create(tex2, {0, 0});
+	bgRight_->SetSize({bgWidth_, 720.0f});
 }
 
 void Stage::Update() {
+	// 左へスクロール
 	scrollX_ -= scrollSpeed_;
 
-	if (scrollX_ <= -bgWidth_) {
-		scrollX_ += bgWidth_;
+	if (scrollX_ <= -1280.0f) {
+		scrollX_ += 1280.0f;
 	}
 
 	// 位置更新
-	bgSprite1_->SetPosition({scrollX_, 0});
-	bgSprite2_->SetPosition({scrollX_ + bgWidth_, 0});
-
-	bgSprite1_->SetPosition({scrollX_, 0.0f});
-	bgSprite2_->SetPosition({scrollX_ + 1280.0f, 0.0f});
+	bgLeft_->SetPosition({scrollX_, 0.0f});
+	bgRight_->SetPosition({scrollX_ + 1280.0f, 0.0f});
 
 }
-
-
 void Stage::Draw() {
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	Sprite::PreDraw(cmdList);
 
-	bgSprite1_->Draw();
-	bgSprite2_->Draw();
+	bgLeft_->Draw();
+	bgRight_->Draw();
 
 	Sprite::PostDraw();
 }

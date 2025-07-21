@@ -15,8 +15,8 @@ private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;
 
-	KamataEngine::Sprite* bgSprite1_ = nullptr;
-	KamataEngine::Sprite* bgSprite2_ = nullptr;
+	KamataEngine::Sprite* bgLeft_ = nullptr;
+	KamataEngine::Sprite* bgRight_ = nullptr;
 
 	float scrollX_ = 0.0f;
 	const float scrollSpeed_ = 2.0f;
