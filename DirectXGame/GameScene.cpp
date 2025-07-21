@@ -65,7 +65,7 @@ void GameScene::Draw() {
 
 	// 3Dオブジェクト
 	Model::PreDraw(commandList);
-	particle_->Draw(camera_);
+	//particle_->Draw(camera_);
 	player_->Draw(camera_);
 	Model::PostDraw();
 

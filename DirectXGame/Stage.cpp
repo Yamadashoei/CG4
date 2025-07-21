@@ -21,11 +21,10 @@ void Stage::Initialize() {
 	bgLeft_ = Sprite::Create(tex1, {0.0f, 0.0f});
 	bgLeft_->SetSize({1280.0f, 720.0f});
 
-	// 右側背景(反転)
+	// 右側背景
 	bgRight_ = Sprite::Create(tex2, {1280.0f, 0.0f});
 	bgRight_->SetSize({1280.0f, 720.0f});
-	/*bgRight_->SetAnchorPoint({1.0f, 0.0f}); 
-	bgRight_->SetIsFlipX(true);*/
+
 }
 
 
@@ -51,5 +50,4 @@ void Stage::Draw() {
 
 	Sprite::PostDraw();
 	
-
 }
