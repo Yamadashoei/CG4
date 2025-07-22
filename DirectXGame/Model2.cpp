@@ -249,19 +249,19 @@ Model2* Model2::CreateRing(uint32_t divideNum, float outerRadius, float innerRad
 		uint32_t baseIndex = static_cast<uint32_t>(vertices.size());
 
 		vertices.push_back({
-		    outerCurr, {0, 0, 1},
+		    outerCurr, {0, 0, -1},
              {u, 0.0f}
         });
 		vertices.push_back({
-		    innerCurr, {0, 0, 1},
+		    innerCurr, {0, 0, -1},
              {u, 1.0f}
         });
 		vertices.push_back({
-		    innerNext, {0, 0, 1},
+		    innerNext, {0, 0, -1},
              {uNext, 1.0f}
         });
 		vertices.push_back({
-		    outerNext, {0, 0, 1},
+		    outerNext, {0, 0, -1},
              {uNext, 0.0f}
         });
 
