@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 
 	// グラフ初期化
 	graph_ = new Graph();
-	graph_->Initialize(200.0f, 20.0f, Vector2{100, 50}); // Vector2 は KamataEngine 名前空間内でもOK
+	graph_->Initialize(200.0f, 20.0f, Vector2{100, 50});
 }
 
 void GameScene::Update() {
@@ -75,7 +75,7 @@ void GameScene::Draw() {
 	// 3Dオブジェクト描画
 	Model::PreDraw(commandList);
 	player_->Draw(camera_);
-	// particle_->Draw(camera_); // 使用していない場合はコメントでもOK
+	// particle_->Draw(camera_); 
 	Model::PostDraw();
 
 	// 前景スプライト（グラフ表示）
