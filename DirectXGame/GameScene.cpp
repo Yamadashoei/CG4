@@ -11,6 +11,9 @@ GameScene::~GameScene() {
 	delete stage_;
 	delete player_;
 	delete graph_;
+	for (int i = 0; i < 5; i++) {
+		delete numberSprite_[i];
+	}
 }
 
 void GameScene::Initialize() {
@@ -21,6 +24,7 @@ void GameScene::Initialize() {
 	// モデル生成
 	modelParticle_ = Model::CreateSphere(4, 4);
 	modelPlayer_ = Model::CreateFromOBJ("player");
+	numberTextureHandle_ = TextureManager::Load("./Resources/number.png"); // 数字画像の読み込み
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -39,7 +43,13 @@ void GameScene::Initialize() {
 
 	// グラフ初期化
 	graph_ = new Graph();
-	graph_->Initialize(200.0f, 20.0f, Vector2{100, 50}); // Vector2 は KamataEngine 名前空間内でもOK
+	graph_->Initialize(200.0f, 20.0f, Vector2{100, 50});
+
+	// スプライト5つを生成
+	for (int i = 0; i < 5; i++) {
+		numberSprite_[i] = Sprite::Create(numberTextureHandle_, {100.0f + numberSize_.x * i, 5.0f});
+		numberSprite_[i]->SetSize(numberSize_);
+	}
 }
 
 void GameScene::Update() {
@@ -48,17 +58,29 @@ void GameScene::Update() {
 	stage_->Update();
 	particle_->Update();
 
-	// HPを減らして0になったらまた100に戻す
-	if (hp > 0) {
-		hp--;
-	} else {
-		hp = 100; // 0になったらリセット
-	}
-
 	// グラフ更新
+	hp--;
+	if (hp < 0) {
+		hp = 100;
+	}
 	float hpRate = static_cast<float>(hp) / maxHp;
 	graph_->SetTargetRate(hpRate);
 	graph_->Update();
+
+	// 数値カウントアップ
+	score++;
+	if (score > 99999) {
+		score = 0;
+	}
+	// 数値表示の更新
+	int number = score;
+	int digit = 10000;
+
+	for (int i = 0; i < 5; i++) {
+		int nowNumber = number / digit % 10;
+		numberSprite_[i]->SetTextureRect({numberSize_.x * nowNumber, 0}, numberSize_);
+		digit /= 10;
+	}
 }
 
 void GameScene::Draw() {
@@ -66,6 +88,7 @@ void GameScene::Draw() {
 
 	// 背景スプライト
 	Sprite::PreDraw(commandList);
+	// ステージの背景
 	stage_->Draw();
 	Sprite::PostDraw();
 
@@ -74,12 +97,19 @@ void GameScene::Draw() {
 
 	// 3Dオブジェクト描画
 	Model::PreDraw(commandList);
+	// プレイヤー描画
 	player_->Draw(camera_);
-	// particle_->Draw(camera_); // 使用していない場合はコメントでもOK
+	// particle_->Draw(camera_);
 	Model::PostDraw();
 
 	// 前景スプライト（グラフ表示）
 	Sprite::PreDraw(commandList);
+	// グラフの背景
 	graph_->Draw();
+	// 数値表示
+	for (int i = 0; i < 5; i++) {
+		numberSprite_[i]->Draw();
+	}
+
 	Sprite::PostDraw();
 }

@@ -45,4 +45,11 @@ private:
 	// HP情報
 	int hp = 100;
 	int maxHp = 100;
+
+	// 数値表示用
+	uint32_t numberTextureHandle_ = 0;
+	KamataEngine::Sprite* numberSprite_[5] = {};
+	KamataEngine::Vector2 numberSize_ = {32.0f, 64.0f}; 
+	int score = 0;
+
 };
