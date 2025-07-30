@@ -8,6 +8,7 @@ TitleScene::~TitleScene() {
 	delete background_;
 	delete titleSprite_;
 	delete enterKeySprite_;
+	delete blackSprite_;
 }
 
 void TitleScene::Initialize() {
@@ -25,6 +26,11 @@ void TitleScene::Initialize() {
 	// Hit Enter Key の文字
 	uint32_t enterTex = TextureManager::Load("./Resources/scene/enter.png");
 	enterKeySprite_ = Sprite::Create(enterTex, {490.0f, 500.0f});
+
+	// フェード用の黒スプライト作成（全画面に拡大）
+	uint32_t blackTex = TextureManager::Load("./Resources/black1x1.png");
+	blackSprite_ = Sprite::Create(blackTex, {0.0f, 0.0f});
+	blackSprite_->SetSize({1280.0f, 720.0f}); // 画面サイズに合わせる
 }
 
 void TitleScene::Update() {
@@ -36,9 +42,21 @@ void TitleScene::Update() {
 		titleSprite_->SetPosition({400.0f, titleY_});
 	}
 
-	// Enterキー押下でシーン遷移
-	if (input_->TriggerKey(DIK_RETURN)) {
-		isSceneEnd_ = true;
+	// Enterキー押下でフェード開始
+	if (!startTransition_ && input_->TriggerKey(DIK_RETURN)) {
+		startTransition_ = true;
+		transitionFrameCount_ = 0;
+	}
+
+	// フェードアウト処理
+	if (startTransition_) {
+		transitionFrameCount_++;
+		fadeAlpha_ += 0.01f;
+
+		if (fadeAlpha_ >= 1.0f) {
+			fadeAlpha_ = 1.0f;
+			isSceneEnd_ = true; // フェード完了後にシーン切り替え
+		}
 	}
 }
 
@@ -55,9 +73,14 @@ void TitleScene::Draw() {
 		enterKeySprite_->Draw();
 	}
 
+	// フェードアウト描画
+	if (startTransition_) {
+		blackSprite_->SetColor({0.0f, 0.0f, 0.0f, fadeAlpha_});
+		blackSprite_->Draw();
+	}
+
 	Sprite::PostDraw();
 	dxCommon_->ClearDepthBuffer();
-
 }
 
 bool TitleScene::IsSceneEnd() const { return isSceneEnd_; }

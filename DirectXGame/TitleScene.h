@@ -24,4 +24,10 @@ private:
 	int frameCount_ = 0;     // フレームカウント
 
 	bool isSceneEnd_ = false;
+
+	KamataEngine::Sprite* blackSprite_ = nullptr; // フェード用の黒スプライト
+	bool startTransition_ = false; // フェード開始フラグ
+	float fadeAlpha_ = 0.0f;       // フェードの透明度
+	int transitionFrameCount_ = 0; // フェードの進行カウント
+
 };
