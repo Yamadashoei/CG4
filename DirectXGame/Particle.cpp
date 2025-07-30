@@ -2,7 +2,7 @@
 #include <cassert>
 using namespace KamataEngine;
 
-void Particle::Initialize(KamataEngine::Model*model) {
+void Particle::Initialize(KamataEngine::Model* model) {
 	// Nullチェック
 	assert(model);
 
@@ -10,12 +10,10 @@ void Particle::Initialize(KamataEngine::Model*model) {
 	modelParticle_ = model;
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
-
-
 }
 
 void Particle::Update() {
-//行数を定数バッファに転送
+	// 行数を定数バッファに転送
 	worldTransform_.TransferMatrix();
 }
 
