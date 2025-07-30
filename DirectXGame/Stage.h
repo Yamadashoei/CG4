@@ -20,4 +20,5 @@ private:
 
 	float scrollX_ = 0.0f;
 	float scrollSpeed_ = 2.0f;
+	const float bgWidth_ = 1280.0f; // 背景の幅
 };
