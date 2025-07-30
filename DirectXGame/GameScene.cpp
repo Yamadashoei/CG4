@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 
 	// グラフ初期化
 	graph_ = new Graph();
-	graph_->Initialize(200.0f, 20.0f, Vector2{100, 50});
+	graph_->Initialize(200.0f, 20.0f, Vector2{100, 80});
 
 	// スプライト5つを生成
 	for (int i = 0; i < 5; i++) {
