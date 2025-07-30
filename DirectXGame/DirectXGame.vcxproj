@@ -107,6 +107,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="kMath.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -189,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="kMath.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="TitleScene.h" />
