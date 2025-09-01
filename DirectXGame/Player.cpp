@@ -7,7 +7,7 @@ using namespace KamataEngine;
 Player::Player() {}
 Player::~Player() {}
 
-//プレイヤー
+//プレイヤー初期化
 void Player::Initialize(Model* model, Vector3 position, Vector3 velocity) {
 	assert(model);
 	playerModel_ = model;
